@@ -50,3 +50,15 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# SWR
+spacecraft/
+system/
+area/
+players/
+
+# Visual Studio
+.vs/
+src/Debug/
+src/Planets.vcxproj.user
+src/Planets.vcxproj.filters
