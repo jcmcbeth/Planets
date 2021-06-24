@@ -16,7 +16,7 @@
 /*
  * Attribute bonus tables.
  */
-const	struct	str_app_type	str_app		[26]		=
+const	struct	str_app_type	str_app[26] =
 {
     { -5, -4,   0,  0 },  /* 0  */
     { -5, -4,   3,  2 },  /* 1  */
@@ -48,7 +48,7 @@ const	struct	str_app_type	str_app		[26]		=
 
 
 
-const	struct	int_app_type	int_app		[26]		=
+const	struct	int_app_type	int_app[26] =
 {
     {  3 },	/*  0 */
     {  5 },	/*  1 */
@@ -80,7 +80,7 @@ const	struct	int_app_type	int_app		[26]		=
 
 
 
-const	struct	wis_app_type	wis_app		[26]		=
+const	struct	wis_app_type	wis_app[26] =
 {
     { 0 },	/*  0 */
     { 0 },	/*  1 */
@@ -112,7 +112,7 @@ const	struct	wis_app_type	wis_app		[26]		=
 
 
 
-const	struct	dex_app_type	dex_app		[26]		=
+const	struct	dex_app_type	dex_app[26] =
 {
     {   60 },   /* 0 */
     {   50 },   /* 1 */
@@ -129,22 +129,22 @@ const	struct	dex_app_type	dex_app		[26]		=
     {    0 },
     {    0 },
     {    0 },
-    { - 10 },   /* 15 */
-    { - 15 },
-    { - 20 },
-    { - 30 },
-    { - 40 },
-    { - 50 },   /* 20 */
-    { - 60 },
-    { - 75 },
-    { - 90 },
+    { -10 },   /* 15 */
+    { -15 },
+    { -20 },
+    { -30 },
+    { -40 },
+    { -50 },   /* 20 */
+    { -60 },
+    { -75 },
+    { -90 },
     { -105 },
     { -120 }    /* 25 */
 };
 
 
 
-const	struct	con_app_type	con_app		[26]		=
+const	struct	con_app_type	con_app[26] =
 {
     { -4, 20, 95 },   /*  0 */
     { -3, 25, 95 },   /*  1 */
@@ -175,17 +175,17 @@ const	struct	con_app_type	con_app		[26]		=
 };
 
 
-const	struct	cha_app_type	cha_app		[26]		=
+const	struct	cha_app_type	cha_app[26] =
 {
-    { - 60 },   /* 0 */
-    { - 50 },   /* 1 */
-    { - 50 },
-    { - 40 },
-    { - 30 },
-    { - 20 },   /* 5 */
-    { - 10 },
-    { -  5 },
-    { -  1 },
+    { -60 },   /* 0 */
+    { -50 },   /* 1 */
+    { -50 },
+    { -40 },
+    { -30 },
+    { -20 },   /* 5 */
+    { -10 },
+    { -5 },
+    { -1 },
     {    0 },
     {    0 },   /* 10 */
     {    0 },
@@ -206,7 +206,7 @@ const	struct	cha_app_type	cha_app		[26]		=
 };
 
 /* Have to fix this up - not exactly sure how it works (Scryn) */
-const	struct	lck_app_type	lck_app		[26]		=
+const	struct	lck_app_type	lck_app[26] =
 {
     {   60 },   /* 0 */
     {   50 },   /* 1 */
@@ -223,20 +223,20 @@ const	struct	lck_app_type	lck_app		[26]		=
     {    0 },
     {    0 },
     {    0 },
-    { - 10 },   /* 15 */
-    { - 15 },
-    { - 20 },
-    { - 30 },
-    { - 40 },
-    { - 50 },   /* 20 */
-    { - 60 },
-    { - 75 },
-    { - 90 },
+    { -10 },   /* 15 */
+    { -15 },
+    { -20 },
+    { -30 },
+    { -40 },
+    { -50 },   /* 20 */
+    { -60 },
+    { -75 },
+    { -90 },
     { -105 },
     { -120 }    /* 25 */
 };
 
-const	struct	frc_app_type	frc_app		[26]		=
+const	struct	frc_app_type	frc_app[26] =
 {
     {    0 },   /* 0 */
     {    0 },   /* 1 */
@@ -272,7 +272,7 @@ const	struct	frc_app_type	frc_app		[26]		=
  * Liquid properties.
  * Used in #OBJECT section of area file.
  */
-const	struct	liq_type	liq_table	[LIQ_MAX]	=
+const	struct	liq_type	liq_table[LIQ_MAX] =
 {
     { "water",			"clear",	{  0, 1, 10 }	},  /*  0 */
     { "beer",			"amber",	{  3, 2,  5 }	},
@@ -298,7 +298,7 @@ const	struct	liq_type	liq_table	[LIQ_MAX]	=
     { "milkshake",              "creamy",       {  0, 8,  5 }   }   /* 18 */
 };
 
-char *	const	attack_table	[13] =
+char* const	attack_table[13] =
 {
     "hit",
     "slice",  "stab",  "slash", "whip", "claw",
