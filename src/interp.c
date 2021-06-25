@@ -4,7 +4,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
+
 #include "mud.h"
+#include "planets_time.h"
 
 /*
  * Externals
@@ -616,45 +618,52 @@ char* one_argument2(char* argument, char* arg_first)
 
 void do_timecmd(CHAR_DATA* ch, char* argument)
 {
-    struct timeval stime;
-    struct timeval etime;
     static bool timing;
     extern CHAR_DATA* timechar;
     char arg[MAX_INPUT_LENGTH];
 
     send_to_char("Timing\n\r", ch);
     if (timing)
+    {
         return;
+    }
+    
     one_argument(argument, arg);
     if (!*arg)
     {
         send_to_char("No command to time.\n\r", ch);
         return;
     }
+
     if (!str_cmp(arg, "update"))
     {
         if (timechar)
+        {
             send_to_char("Another person is already timing updates.\n\r", ch);
+        }
         else
         {
             timechar = ch;
             send_to_char("Setting up to record next update loop.\n\r", ch);
         }
+
         return;
     }
+
     set_char_color(AT_PLAIN, ch);
     send_to_char("Starting timer.\n\r", ch);
+
     timing = TRUE;
-    gettimeofday(&stime, NULL);
+
+    clock_t start_clock = clock();
     interpret(ch, argument);
-    gettimeofday(&etime, NULL);
+    double elapsed = elapsed_seconds(start_clock);
+
     timing = FALSE;
+
     set_char_color(AT_PLAIN, ch);
     send_to_char("Timing complete.\n\r", ch);
-    subtract_times(&etime, &stime);
-    ch_printf(ch, "Timing took %d.%06d seconds.\n\r",
-              etime.tv_sec, etime.tv_usec);
-    return;
+    ch_printf(ch, "Timing took %.6f seconds.\n\r", elapsed);
 }
 
 void start_timer(struct timeval* stime)

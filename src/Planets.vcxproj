@@ -42,6 +42,7 @@
     <ClCompile Include="mud_comm.c" />
     <ClCompile Include="mud_prog.c" />
     <ClCompile Include="planets.c" />
+    <ClCompile Include="planets_time.c" />
     <ClCompile Include="player.c" />
     <ClCompile Include="requests.c" />
     <ClCompile Include="reset.c" />
@@ -60,6 +61,7 @@
   <ItemGroup>
     <ClInclude Include="bet.h" />
     <ClInclude Include="mud.h" />
+    <ClInclude Include="planets_time.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -131,6 +133,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <CompileAs>CompileAsC</CompileAs>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
