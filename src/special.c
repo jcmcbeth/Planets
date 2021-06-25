@@ -9,14 +9,14 @@ bool  remove_obj(CHAR_DATA* ch, int iWear, bool fReplace);
 /*
  * The following special functions are available for mobiles.
  */
-DECLARE_SPEC_FUN(spec_fido);
-DECLARE_SPEC_FUN(spec_guardian);
-DECLARE_SPEC_FUN(spec_janitor);
-DECLARE_SPEC_FUN(spec_poison);
-DECLARE_SPEC_FUN(spec_thief);
-DECLARE_SPEC_FUN(spec_auth);
-DECLARE_SPEC_FUN(spec_clan_guard);
-DECLARE_SPEC_FUN(spec_ship_guard);
+SPEC_FUN spec_fido;
+SPEC_FUN spec_guardian;
+SPEC_FUN spec_janitor;
+SPEC_FUN spec_poison;
+SPEC_FUN spec_thief;
+SPEC_FUN spec_auth;
+SPEC_FUN spec_clan_guard;
+SPEC_FUN spec_ship_guard;
 
 /*
  * Given a name, return the appropriate spec fun.
