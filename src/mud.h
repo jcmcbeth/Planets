@@ -3620,7 +3620,7 @@ bool check_dodge(CHAR_DATA* ch, CHAR_DATA* victim);
 bool check_grip(CHAR_DATA* ch, CHAR_DATA* victim);
 void disarm(CHAR_DATA* ch, CHAR_DATA* victim);
 void trip(CHAR_DATA* ch, CHAR_DATA* victim);
-int character_skill_level(const CHAR_DATA* ch, short skill)
+int character_skill_level(const CHAR_DATA* ch, short skill);
 
 
 /* handler.c */
