@@ -64,14 +64,15 @@ void write_clan_list()
     fclose(fpout);
 }
 
-/*
- * Save a clan's data to its data file
+/**
+ * @brief Save a clan's data to its data file
+ * @param clan Clan to save.
  */
 void save_clan(CLAN_DATA* clan)
 {
-    FILE* fp;
+    FILE* file;
     char filename[256];
-    char buf[MAX_STRING_LENGTH];
+    char buffer[MAX_STRING_LENGTH];
 
     if (!clan)
     {
@@ -81,35 +82,33 @@ void save_clan(CLAN_DATA* clan)
 
     if (!clan->filename || clan->filename[0] == '\0')
     {
-        sprintf(buf, "save_clan: %s has no filename", clan->name);
-        bug(buf, 0);
+        sprintf(buffer, "save_clan: %s has no filename", clan->name);
+        bug(buffer, 0);
         return;
     }
 
     sprintf(filename, "%s%s", CLAN_DIR, clan->filename);
 
-    fclose(fpReserve);
-    if ((fp = fopen(filename, "w")) == NULL)
+    if ((file = fopen(filename, "w")) == NULL)
     {
         bug("save_clan: fopen", 0);
         perror(filename);
     }
     else
     {
-        fprintf(fp, "#CLAN\n");
-        fprintf(fp, "Name         %s~\n", clan->name);
-        fprintf(fp, "Filename     %s~\n", clan->filename);
-        fprintf(fp, "Description  %s~\n", clan->description);
-        fprintf(fp, "Leaders      %s~\n", clan->leaders);
-        fprintf(fp, "Atwar        %s~\n", clan->atwar);
-        fprintf(fp, "Members      %d\n", clan->members);
-        fprintf(fp, "Funds        %ld\n", clan->funds);
-        fprintf(fp, "End\n\n");
-        fprintf(fp, "#END\n");
+        fprintf(file, "#CLAN\n");
+        fprintf(file, "Name         %s~\n", clan->name);
+        fprintf(file, "Filename     %s~\n", clan->filename);
+        fprintf(file, "Description  %s~\n", clan->description);
+        fprintf(file, "Leaders      %s~\n", clan->leaders);
+        fprintf(file, "Atwar        %s~\n", clan->atwar);
+        fprintf(file, "Members      %d\n", clan->members);
+        fprintf(file, "Funds        %ld\n", clan->funds);
+        fprintf(file, "End\n\n");
+        fprintf(file, "#END\n");
     }
-    fclose(fp);
-    fpReserve = fopen(NULL_FILE, "r");
-    return;
+
+    fclose(file);
 }
 
 /*
@@ -293,7 +292,7 @@ void load_clans()
         exit(1);
     }
 
-    for (; ; )
+    for (;;)
     {
         filename = feof(fpList) ? "$" : fread_word(fpList);
         log_string(filename);
@@ -650,34 +649,46 @@ void do_showclan(CHAR_DATA* ch, char* argument)
     return;
 }
 
+/**
+ * @brief Command that creates a new clan.
+ * @param ch        Character initiating the command.
+ * @param argument  Arguments passed by the character for the command.
+ */
 void do_makeclan(CHAR_DATA* ch, char* argument)
 {
     char filename[256];
-    CLAN_DATA* clan;
-    bool found;
+    CLAN_DATA* clan = NULL;
 
     if (!argument || argument[0] == '\0')
     {
-        send_to_char("Usage: makeclan <clan name>\n\r", ch);
+        send_to_char("Usage: makeclan <clan name>\r\n", ch);
         return;
     }
 
-    found = FALSE;
-    sprintf(filename, "%s%s", CLAN_DIR, strlower(argument));
+    if (get_clan(argument))
+    {
+        ch_printf(ch, "&RThere is already an organization with that name.&w\r\n");
+        return;
+    }
+
+    sprintf(filename, "%s", strlower(argument));
+    replace_char(filename, ' ', '_');
+
+    if (!is_valid_filename(ch, CLAN_DIR, filename))
+        return;
 
     CREATE(clan, CLAN_DATA, 1);
     LINK(clan, first_clan, last_clan, next, prev);
-    clan->filename = str_dup(filename);
     clan->name = STRALLOC(argument);
+    clan->filename = STRALLOC(filename);
     clan->description = STRALLOC("");
     clan->leaders = STRALLOC("");
     clan->atwar = STRALLOC("");
-    clan->tmpstr = STRALLOC("");
     clan->funds = 0;
     clan->salary = 0;
     clan->members = 0;
-
     save_clan(clan);
+    write_clan_list();
 
     send_to_char("Clan created.\n\r", ch);
 }

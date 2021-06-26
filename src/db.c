@@ -4628,6 +4628,48 @@ void load_banlist(void)
     }
 }
 
+/**
+ * @brief Displays a message to the character if the file name is not valid.
+ * @param ch        Character to send the message to.
+ * @param directory Directory the file will be stored in.
+ * @param filename  File name of the file.
+ * @return TRUE if the file name if valid, FALSE otherwise.
+*/
+bool is_valid_filename(const CHAR_DATA* ch, const char* directory, const char* filename)
+{
+    char new_filename[256];
+    struct stat fst;
+
+    /* Length restrictions */
+    if (!filename || filename[0] == '\0' || strlen(filename) < 3)
+    {
+        if (!filename || !str_cmp(filename, ""))
+            send_to_char("Empty filename is not valid.\r\n", ch);
+        else
+            ch_printf(ch, "%s: Filename is too short.\r\n", filename);
+
+        return FALSE;
+    }
+
+    /* Illegal characters */
+    if (strstr(filename, "..") || strstr(filename, "/") || strstr(filename, "\\"))
+    {
+        send_to_char("A filename may not contain a '..', '/', or '\\' in it.\r\n", ch);
+        return FALSE;
+    }
+
+    /* If that filename is already being used lets not allow it now to be on the safe side */
+    sprintf(new_filename, "%s%s", directory, filename);
+
+    if (stat(new_filename, &fst) != -1)
+    {
+        ch_printf(ch, "%s is already an existing filename.\r\n", new_filename);
+        return FALSE;
+    }
+
+    /* If we got here assume its valid */
+    return TRUE;
+}
 
 /*
  * This function is here to aid in debugging.

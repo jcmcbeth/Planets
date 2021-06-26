@@ -3509,6 +3509,7 @@ bool    delete_mob(MOB_INDEX_DATA* mob);
 void	sort_area(AREA_DATA* pArea, bool proto);
 void   load_votes(void);
 void   save_votes(void);
+bool is_valid_filename(const CHAR_DATA* ch, const char* directory, const char* filename);
 
 /* build.c */
 void	start_editing(CHAR_DATA* ch, char* data);
@@ -3620,7 +3621,7 @@ bool check_dodge(CHAR_DATA* ch, CHAR_DATA* victim);
 bool check_grip(CHAR_DATA* ch, CHAR_DATA* victim);
 void disarm(CHAR_DATA* ch, CHAR_DATA* victim);
 void trip(CHAR_DATA* ch, CHAR_DATA* victim);
-int character_skill_level(const CHAR_DATA* ch, short skill)
+int character_skill_level(const CHAR_DATA* ch, short skill);
 
 
 /* handler.c */
