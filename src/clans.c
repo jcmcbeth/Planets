@@ -667,6 +667,7 @@ void do_makeclan(CHAR_DATA* ch, char* argument)
 
     CREATE(clan, CLAN_DATA, 1);
     LINK(clan, first_clan, last_clan, next, prev);
+    clan->filename = str_dup(filename);
     clan->name = STRALLOC(argument);
     clan->description = STRALLOC("");
     clan->leaders = STRALLOC("");
@@ -675,6 +676,10 @@ void do_makeclan(CHAR_DATA* ch, char* argument)
     clan->funds = 0;
     clan->salary = 0;
     clan->members = 0;
+
+    save_clan(clan);
+
+    send_to_char("Clan created.\n\r", ch);
 }
 
 void do_clans(CHAR_DATA* ch, char* argument)
