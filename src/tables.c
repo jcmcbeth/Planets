@@ -407,6 +407,7 @@ DO_FUN* skill_function(char* name)
             if (!str_cmp(name, "do_shutdown"))		return do_shutdown;
             if (!str_cmp(name, "do_silence"))		return do_silence;
             if (!str_cmp(name, "do_sit"))		return do_sit;
+            if (!str_cmp(name, "do_skills")) return do_skills;
             if (!str_cmp(name, "do_sla"))		return do_sla;
             if (!str_cmp(name, "do_slay"))		return do_slay;
             if (!str_cmp(name, "do_sleep"))		return do_sleep;

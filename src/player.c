@@ -871,8 +871,8 @@ void do_report(CHAR_DATA* ch, char* argument)
 
 /**
  * @brief Player command that sets the prompt the current character will see.
- * @param ch Character executing the command.
- * @param argument Arguments the character sent with the command.
+ * @param ch        Character executing the command.
+ * @param argument  Arguments the character sent with the command.
  */
 void do_prompt(CHAR_DATA* ch, char* argument)
 {
@@ -907,4 +907,58 @@ void do_prompt(CHAR_DATA* ch, char* argument)
         ch->pcdata->prompt = STRALLOC(argument);
 
     send_to_char("Ok.\n\r", ch);
+}
+
+/**
+ * @brief Command that displays to the character its skills and skill levels.
+ * @param ch       Character that initiated the command.
+ * @param argument Argument passed to the command by the player.
+ */
+void do_skills(CHAR_DATA* ch, char* argument)
+{
+    int skills = 0;
+    int sn;
+    int level;
+
+    send_to_char("&W-----------------------------------[ &GSkills&W ]-----------------------------------\r\n", ch);
+
+    for (sn = 0; sn < top_sn; sn++)
+    {
+        level = character_skill_level(ch, sn);
+
+        if (level > 0)
+        {
+            /* 15 spaces for the skills */
+            ch_printf(ch, "&W%-15.15s ", skill_table[sn]->name);
+
+            // TODO: base this off of the starting skill level
+            if (level <= 25)
+                ch_printf(ch, "&G%-10s", "Inept");
+            else if (level <= 50)
+                ch_printf(ch, "&G%-10s", "Unskilled");
+            else if (level <= 60)
+                ch_printf(ch, "&G%-10s", "Average");
+            else if (level <= 70)
+                ch_printf(ch, "&G%-10s", "Proficient");
+            else if (level < 60)
+                ch_printf(ch, "&G%-10s", "Skilled");
+            else if (level < 90)
+                ch_printf(ch, "&G%-10s", "Adept");
+            else
+                ch_printf(ch, "&C%-10s", "Mastered");
+
+            /* Only 3 columns of skills */
+            if (++skills % 3 == 0)
+                send_to_char("\r\n", ch);
+            else
+                send_to_char(" ", ch);
+        }
+    }
+
+    if (skills == 0)
+        send_to_char("&GYou don't have any skills... how sad.\r\n", ch);
+    else if (skills % 3 != 0) /* Make sure there is a new line after the last skill */
+        send_to_char("\r\n", ch);
+
+    send_to_char("&W--------------------------------------------------------------------------------\r\n\r\n", ch);
 }

@@ -3119,6 +3119,7 @@ DO_FUN do_shutdow;
 DO_FUN do_shutdown;
 DO_FUN do_silence;
 DO_FUN do_sit;
+DO_FUN do_skills;
 DO_FUN do_sla;
 DO_FUN do_slay;
 DO_FUN do_sleep;
