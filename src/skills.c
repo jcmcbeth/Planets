@@ -40,10 +40,20 @@ bool check_illegal_psteal(CHAR_DATA* ch, CHAR_DATA* victim);
 void failed_casting(struct skill_type* skill, CHAR_DATA* ch,
                     CHAR_DATA* victim, OBJ_DATA* obj);
 
+/**
+ * @brief Gets the level of a character's skill.
+ * @param ch    Character with the skill to get the level of.
+ * @param skill Skill to get the level of.
+ * @return      Level of the character's skill.
+*/
+int character_skill_level(const CHAR_DATA* ch, short skill)
+{
+    return IS_NPC(ch) ? 100 : ch->pcdata->learned[skill];
+}
 
-       /*
-        * Dummy function
-        */
+/*
+* Dummy function
+*/
 void skill_notfound(CHAR_DATA* ch, char* argument)
 {
     send_to_char("Huh?\n\r", ch);

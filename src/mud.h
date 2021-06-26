@@ -3612,14 +3612,15 @@ void	release_supermob();
 void	set_title(CHAR_DATA* ch, char* title);
 
 /* skills.c */
-bool	check_skill(CHAR_DATA* ch, char* command, char* argument);
-void	learn_from_success(CHAR_DATA* ch, int sn);
-void	learn_from_failure(CHAR_DATA* ch, int sn);
-bool	check_parry(CHAR_DATA* ch, CHAR_DATA* victim);
-bool	check_dodge(CHAR_DATA* ch, CHAR_DATA* victim);
-bool 	check_grip(CHAR_DATA* ch, CHAR_DATA* victim);
-void	disarm(CHAR_DATA* ch, CHAR_DATA* victim);
-void	trip(CHAR_DATA* ch, CHAR_DATA* victim);
+bool check_skill(CHAR_DATA* ch, char* command, char* argument);
+void learn_from_success(CHAR_DATA* ch, int sn);
+void learn_from_failure(CHAR_DATA* ch, int sn);
+bool check_parry(CHAR_DATA* ch, CHAR_DATA* victim);
+bool check_dodge(CHAR_DATA* ch, CHAR_DATA* victim);
+bool check_grip(CHAR_DATA* ch, CHAR_DATA* victim);
+void disarm(CHAR_DATA* ch, CHAR_DATA* victim);
+void trip(CHAR_DATA* ch, CHAR_DATA* victim);
+int character_skill_level(const CHAR_DATA* ch, short skill)
 
 
 /* handler.c */
