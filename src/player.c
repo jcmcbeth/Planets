@@ -869,6 +869,11 @@ void do_report(CHAR_DATA* ch, char* argument)
 {
 }
 
+/**
+ * @brief Player command that sets the prompt the current character will see.
+ * @param ch Character executing the command.
+ * @param argument Arguments the character sent with the command.
+ */
 void do_prompt(CHAR_DATA* ch, char* argument)
 {
     char arg[MAX_INPUT_LENGTH];
@@ -878,25 +883,28 @@ void do_prompt(CHAR_DATA* ch, char* argument)
         send_to_char("NPC's can't change their prompt..\n\r", ch);
         return;
     }
+
     smash_tilde(argument);
     one_argument(argument, arg);
+
     if (!*arg)
     {
         send_to_char("Set prompt to what? (try help prompt)\n\r", ch);
         return;
     }
+
     if (ch->pcdata->prompt)
         STRFREE(ch->pcdata->prompt);
 
     if (strlen(argument) > 128)
         argument[128] = '\0';
 
-      /* Can add a list of pre-set prompts here if wanted.. perhaps
-         'prompt 1' brings up a different, pre-set prompt */
+    // Can add a list of pre-set prompts here if wanted.. perhaps
+    // 'prompt 1' brings up a different, pre-set prompt
     if (!str_cmp(arg, "default"))
         ch->pcdata->prompt = STRALLOC("");
     else
         ch->pcdata->prompt = STRALLOC(argument);
+
     send_to_char("Ok.\n\r", ch);
-    return;
 }

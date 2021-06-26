@@ -2773,6 +2773,10 @@ int getcolor(char clr)
     return -1;
 }
 
+/**
+ * @brief Writes the character's prompt to a descriptor's buffer.
+ * @param d Descriptor to write the prompt to.
+*/
 void display_prompt(DESCRIPTOR_DATA* d)
 {
     CHAR_DATA* ch = d->character;
@@ -2791,12 +2795,16 @@ void display_prompt(DESCRIPTOR_DATA* d)
 
     if (!IS_NPC(ch) && ch->substate != SUB_NONE && ch->pcdata->subprompt
         && ch->pcdata->subprompt[0] != '\0')
+    {
         prompt = ch->pcdata->subprompt;
+    }
     else
+    {
         if (IS_NPC(ch) || !ch->pcdata->prompt || !*ch->pcdata->prompt)
             prompt = default_prompt(ch);
         else
             prompt = ch->pcdata->prompt;
+    }
 
     if (ansi)
     {
@@ -2804,8 +2812,9 @@ void display_prompt(DESCRIPTOR_DATA* d)
         d->prevcolor = 0x07;
         pbuf += 3;
     }
+
     /* Clear out old color stuff */
-  /*  make_color_sequence(NULL, NULL, NULL);*/
+    /*  make_color_sequence(NULL, NULL, NULL);*/
     for (; *prompt; prompt++)
     {
       /*
@@ -2819,14 +2828,17 @@ void display_prompt(DESCRIPTOR_DATA* d)
             *(pbuf++) = *prompt;
             continue;
         }
+
         ++prompt;
         if (!*prompt)
             break;
+
         if (*prompt == *(prompt - 1))
         {
             *(pbuf++) = *prompt;
             continue;
         }
+
         switch (*(prompt - 1))
         {
             default:
@@ -2843,6 +2855,7 @@ void display_prompt(DESCRIPTOR_DATA* d)
             case '%':
                 *pbuf = '\0';
                 stat = 0x80000000;
+
                 switch (*prompt)
                 {
                     case '%':
@@ -2858,6 +2871,8 @@ void display_prompt(DESCRIPTOR_DATA* d)
                             strcpy(pbuf, "neutral");
                         break;
                     case 'H':
+                        stat = ch->hit / ch->max_hit;
+                        break;
                     case 'h':
                         if (ch->hit >= 100)
                             strcpy(pbuf, "healthy");
@@ -2885,6 +2900,8 @@ void display_prompt(DESCRIPTOR_DATA* d)
                         stat = sysdata.maxplayers;
                         break;
                     case 'v':
+                        stat = ch->move / ch->max_move;
+                        break;
                     case 'V':
                         if (ch->move > 500)
                             strcpy(pbuf, "energetic");
@@ -2897,7 +2914,7 @@ void display_prompt(DESCRIPTOR_DATA* d)
                         else
                             strcpy(pbuf, "too tired to move");
                         break;
-                    case 'g':
+                    case 'c':
                         stat = ch->gold;
                         break;
                     case 'r':
@@ -2920,13 +2937,28 @@ void display_prompt(DESCRIPTOR_DATA* d)
                         stat = (IS_NPC(ch) ? (IS_SET(ch->act, ACT_MOBINVIS) ? ch->mobinvis : 0)
                                 : (IS_SET(ch->act, PLR_WIZINVIS) ? ch->pcdata->wizinvis : 0));
                         break;
+                    case 'x':
+                        stat = ch->hit;
+                        break;
+                    case 'X':
+                        stat = ch->max_hit;
+                        break;
+                    case 'y':
+                        stat = ch->move;
+                        break;
+                    case 'Y':
+                        stat = ch->max_move;
+                        break;
                 }
+
                 if (stat != 0x80000000)
                     sprintf(pbuf, "%d", stat);
+
                 pbuf += strlen(pbuf);
                 break;
         }
     }
+
     *pbuf = '\0';
     write_to_buffer(d, buf, (pbuf - buf));
     return;
