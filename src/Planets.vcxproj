@@ -63,6 +63,9 @@
     <ClInclude Include="mud.h" />
     <ClInclude Include="planets_time.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="changes.txt" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
