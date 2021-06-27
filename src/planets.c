@@ -18,6 +18,14 @@ PLANET_DATA* last_planet;
 GUARD_DATA* first_guard;
 GUARD_DATA* last_guard;
 
+char* const	planet_flags[] =
+{
+    "noinvade", "r2", "r3", "r4", "r5", "r6", "r7", "r8", "r9", "r10",
+    "r11", "r12", "r13", "r14", "r15", "r16", "r17", "r18", "r19", "r20",
+    "r21", "r22", "r23", "r24", "r25", "r26", "r27", "r28", "r29", "r30",
+    "r31", "r32"
+};
+
 /* local routines */
 void	fread_planet(PLANET_DATA* planet, FILE* fp);
 bool	load_planet_file(char* planetfile);
@@ -102,6 +110,7 @@ void save_planet(PLANET_DATA* planet)
         fprintf(fp, "#PLANET\n");
         fprintf(fp, "Name         %s~\n", planet->name);
         fprintf(fp, "Filename     %s~\n", planet->filename);
+        fprintf(fp, "Flags        %d~\n", planet->flags);
         fprintf(fp, "X            %d\n", planet->x);
         fprintf(fp, "Y            %d\n", planet->y);
         fprintf(fp, "Z            %d\n", planet->z);
@@ -204,6 +213,7 @@ void fread_planet(PLANET_DATA* planet, FILE* fp)
 
             case 'F':
                 KEY("Filename", planet->filename, fread_string_nohash(fp));
+                KEY("Flags", planet->flags, fread_number(fp));
                 break;
 
             case 'G':
@@ -370,6 +380,32 @@ void load_planets()
     return;
 }
 
+/**
+ * @brief Returns the flag value from a flag name.
+ * @param flag_names List of flag names.
+ * @param flag_name Name of the flag to get the value for.
+ * @return Value of the flag with the specified name.
+ */
+int get_flag(const char** flag_names, const char* flag_name)
+{
+    int flag;
+
+    for (flag = 0; flag < 32; flag++)
+    {
+        if (!str_cmp(flag_name, flag_names[flag]))
+        {
+            return 1 << flag;
+        }
+    }
+
+    return -1;
+}
+
+/**
+ * @brief Command that sets properties of a planet.
+ * @param ch Character that initiated the command. 
+ * @param argument Arguments passed with the command.
+*/
 void do_setplanet(CHAR_DATA* ch, char* argument)
 {
     char arg1[MAX_INPUT_LENGTH];
@@ -389,7 +425,7 @@ void do_setplanet(CHAR_DATA* ch, char* argument)
     {
         send_to_char("Usage: setplanet <planet> <field> [value]\n\r", ch);
         send_to_char("\n\rField being one of:\n\r", ch);
-        send_to_char(" name filename starsystem governed_by\n\r", ch);
+        send_to_char(" name filename starsystem governed_by flags\n\r", ch);
         return;
     }
 
@@ -399,7 +435,6 @@ void do_setplanet(CHAR_DATA* ch, char* argument)
         send_to_char("No such planet.\n\r", ch);
         return;
     }
-
 
     if (!strcmp(arg2, "name"))
     {
@@ -461,9 +496,39 @@ void do_setplanet(CHAR_DATA* ch, char* argument)
         return;
     }
 
+    if (!str_cmp(arg2, "flags"))
+    {
+        if (arg2 == NULL || arg2[0] == '\0')
+        {
+            send_to_char("Usage: setplanet flags <flag> [flag...]\n\r", ch);
+            send_to_char("Possible flags:\n\r", ch);
+            send_to_char("noinvade\n\r", ch);
+
+            return;
+        }
+
+        while (argument[0] != '\0')
+        {
+            argument = one_argument(argument, arg2);
+            int flag = get_flag(planet_flags, arg2);
+
+            if (flag < 0 || flag > 31)
+            {
+                ch_printf(ch, "Unknown flag: %s\n\r", arg2);
+            }
+            else
+            {
+                TOGGLE_BIT(planet->flags, 1 << flag);
+            }
+        }
+
+        send_to_char("Done.\n\r", ch);
+        save_planet(planet);
+
+        return;
+    }
 
     do_setplanet(ch, "");
-    return;
 }
 
 void do_showplanet(CHAR_DATA* ch, char* argument)
@@ -532,13 +597,20 @@ void do_showplanet(CHAR_DATA* ch, char* argument)
               planet->pop_support);
     ch_printf(ch, "&WCurrent Monthly Revenue: &G%ld\n\r",
               get_taxes(planet));
+
+    if (planet->flags != 0)
+    {
+        send_to_char("&WInfo:\n\r", ch);
+
+        if (IS_SET(planet->flags, PLANET_NOINVADE))
+            ch_printf(ch, "&G   This planet can not be invaded by aliens.\n\r");
+    }
+
     if (IS_IMMORTAL(ch) && !planet->area)
     {
         ch_printf(ch, "&RWarning - this planet is not attached to an area!&G");
         ch_printf(ch, "\n\r");
     }
-
-    return;
 }
 
 

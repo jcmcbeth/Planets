@@ -643,6 +643,11 @@ struct  planet_data
     int		     farmland;
     int		     barracks;
     int		     controls;
+
+    /**
+     * @brief Flags that indicate attributes of the planet.
+     */
+    int flags;
 };
 
 struct	clan_data
@@ -1336,6 +1341,10 @@ typedef enum
 #define ITEM_WEAR_EYES		BV17
 #define ITEM_MISSILE_WIELD	BV18
 
+/**
+ * Planet Flags
+ */
+ #define PLANET_NOINVADE    BV00
 
 /*
  * Apply types (for affects).

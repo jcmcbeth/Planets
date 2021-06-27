@@ -687,6 +687,7 @@ void do_makeclan(CHAR_DATA* ch, char* argument)
     clan->funds = 0;
     clan->salary = 0;
     clan->members = 0;
+
     save_clan(clan);
     write_clan_list();
 

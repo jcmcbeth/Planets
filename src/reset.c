@@ -20,7 +20,6 @@ void do_reset(CHAR_DATA* ch, char* argument)
  */
 void reset_all()
 {
-
     ROOM_INDEX_DATA* pRoomIndex;
     int iHash;
     CHAR_DATA* mob = NULL;
@@ -37,7 +36,7 @@ void reset_all()
         int pCount = 0;
         int rCount;
         CLAN_DATA* dClan = NULL;
-        DESCRIPTOR_DATA* d = NULL;
+        DESCRIPTOR_DATA* descriptor = NULL;
 
         for (dPlanet = first_planet; dPlanet; dPlanet = dPlanet->next)
             pCount++;
@@ -54,49 +53,51 @@ void reset_all()
             dClan = dPlanet->governed_by;
 
         if (dClan)
-            for (d = first_descriptor; d; d = d->next)
-                if (d->connected == CON_PLAYING && !d->original &&
-                    d->character && d->character->pcdata && d->character->pcdata->clan
-                    && d->character->pcdata->clan == dPlanet->governed_by)
+            for (descriptor = first_descriptor; descriptor; descriptor = descriptor->next)
+                if (descriptor->connected == CON_PLAYING && !descriptor->original &&
+                    descriptor->character && descriptor->character->pcdata && descriptor->character->pcdata->clan
+                    && descriptor->character->pcdata->clan == dPlanet->governed_by)
                     break;
 
-        if (d)
+        if (descriptor)
         {
             switch (number_bits(2))
             {
                 case 0:
-
-                    for (pRoomIndex = dPlanet->area->first_room; pRoomIndex; pRoomIndex = pRoomIndex->next_in_area)
-                        if (pRoomIndex->sector_type == SECT_CITY
-                            && !IS_SET(pRoomIndex->room_flags, ROOM_NO_MOB))
-                            break;
-                    if (pRoomIndex)
+                    if (!IS_SET(dPlanet->flags, PLANET_NOINVADE))
                     {
-                        int mCount;
-                        char dBuf[MAX_STRING_LENGTH];
-
-                        if ((pMobIndex = get_mob_index(MOB_VNUM_ALIEN)))
+                        for (pRoomIndex = dPlanet->area->first_room; pRoomIndex; pRoomIndex = pRoomIndex->next_in_area)
+                            if (pRoomIndex->sector_type == SECT_CITY
+                                && !IS_SET(pRoomIndex->room_flags, ROOM_NO_MOB))
+                                break;
+                        if (pRoomIndex)
                         {
-                            sprintf(dBuf, "(GNET) A Colonist: Help %s is being invaded by alien forces", dPlanet->name);
-                            echo_to_all(AT_LBLUE, dBuf, ECHOTAR_ALL);
-                            for (mCount = 0; mCount < 20; mCount++)
-                            {
-                                mob = create_mobile(pMobIndex);
-                                char_to_room(mob, pRoomIndex);
-                                mob->hit = 100;
-                                mob->max_hit = 100;
-                                if (room_is_dark(pRoomIndex))
-                                    SET_BIT(mob->affected_by, AFF_INFRARED);
-                                if ((pObjIndex = get_obj_index(OBJ_VNUM_BLASTER)) != NULL)
-                                {
-                                    obj = create_object(pObjIndex, mob->top_level);
-                                    obj_to_char(obj, mob);
-                                    equip_char(mob, obj, WEAR_WIELD);
-                                }
-                                do_setblaster(mob, "full");
-                            }
-                        }
+                            int mCount;
+                            char dBuf[MAX_STRING_LENGTH];
 
+                            if ((pMobIndex = get_mob_index(MOB_VNUM_ALIEN)))
+                            {
+                                sprintf(dBuf, "(GNET) A Colonist: Help %s is being invaded by alien forces", dPlanet->name);
+                                echo_to_all(AT_LBLUE, dBuf, ECHOTAR_ALL);
+                                for (mCount = 0; mCount < 20; mCount++)
+                                {
+                                    mob = create_mobile(pMobIndex);
+                                    char_to_room(mob, pRoomIndex);
+                                    mob->hit = 100;
+                                    mob->max_hit = 100;
+                                    if (room_is_dark(pRoomIndex))
+                                        SET_BIT(mob->affected_by, AFF_INFRARED);
+                                    if ((pObjIndex = get_obj_index(OBJ_VNUM_BLASTER)) != NULL)
+                                    {
+                                        obj = create_object(pObjIndex, mob->top_level);
+                                        obj_to_char(obj, mob);
+                                        equip_char(mob, obj, WEAR_WIELD);
+                                    }
+                                    do_setblaster(mob, "full");
+                                }
+                            }
+
+                        }
                     }
                     break;
 
