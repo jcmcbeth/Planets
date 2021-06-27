@@ -498,7 +498,7 @@ void do_setplanet(CHAR_DATA* ch, char* argument)
 
     if (!str_cmp(arg2, "flags"))
     {
-        if (arg2 == NULL || arg2[0] == '\0')
+        if (argument == NULL || argument[0] == '\0')
         {
             send_to_char("Usage: setplanet flags <flag> [flag...]\n\r", ch);
             send_to_char("Possible flags:\n\r", ch);
@@ -507,7 +507,7 @@ void do_setplanet(CHAR_DATA* ch, char* argument)
             return;
         }
 
-        while (argument[0] != '\0')
+        do
         {
             argument = one_argument(argument, arg2);
             int flag = get_flag(planet_flags, arg2);
@@ -518,9 +518,9 @@ void do_setplanet(CHAR_DATA* ch, char* argument)
             }
             else
             {
-                TOGGLE_BIT(planet->flags, 1 << flag);
+                TOGGLE_BIT(planet->flags, flag);
             }
-        }
+        } while (argument[0] != '\0');
 
         send_to_char("Done.\n\r", ch);
         save_planet(planet);
