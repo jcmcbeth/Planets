@@ -1729,3 +1729,13 @@ void do_search(CHAR_DATA* ch, char* argument)
     act(AT_SKILL, "$n finds $p!", ch, obj, NULL, TO_ROOM);
     return;
 }
+
+/**
+ * @brief 
+ * @param ch 
+ * @param argument 
+ */
+void do_changes(CHAR_DATA* ch, const char* argument)
+{
+
+}

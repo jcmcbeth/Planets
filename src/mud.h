@@ -859,6 +859,14 @@ struct	smaug_affect
     int			bitvector;
 };
 
+struct change_data
+{
+    int vnum;
+    CHANGE_DATA* next;
+    char* title;
+    char* description;
+};
+
 
 /***************************************************************************
  *                                                                         *
