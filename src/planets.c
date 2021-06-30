@@ -386,7 +386,7 @@ void load_planets()
  * @param flag_name Name of the flag to get the value for.
  * @return Value of the flag with the specified name.
  */
-int get_flag(const char** flag_names, const char* flag_name)
+int get_flag(char** flag_names, const char* flag_name)
 {
     int flag;
 

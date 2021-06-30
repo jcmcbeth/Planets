@@ -1,5 +1,5 @@
 2021-06-27
-* Added planet flags
+* Added planet flags with the NOINVADE flag.
 
 2021-06-26
 * Fixed issue with makeclan where the filename was not being set.

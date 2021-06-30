@@ -38,58 +38,58 @@ typedef unsigned char			bool;
 /*
  * Structure types.
  */
-typedef struct	affect_data		AFFECT_DATA;
-typedef struct	area_data		AREA_DATA;
-typedef struct  auction_data            AUCTION_DATA; /* auction data */
-typedef struct	ban_data		BAN_DATA;
-typedef struct	extracted_char_data	EXTRACT_CHAR_DATA;
-typedef struct	char_data		CHAR_DATA;
-typedef struct	hunt_hate_fear		HHF_DATA;
-typedef struct	fighting_data		FIGHT_DATA;
-typedef struct	descriptor_data		DESCRIPTOR_DATA;
-typedef struct	exit_data		EXIT_DATA;
-typedef struct	extra_descr_data	EXTRA_DESCR_DATA;
-typedef struct	help_data		HELP_DATA;
-typedef struct	menu_data		MENU_DATA;
-typedef struct	mob_index_data		MOB_INDEX_DATA;
-typedef struct	note_data		NOTE_DATA;
-typedef struct	board_data		BOARD_DATA;
-typedef struct	obj_data		OBJ_DATA;
-typedef struct	obj_index_data		OBJ_INDEX_DATA;
-typedef struct	pc_data			PC_DATA;
-typedef struct	map_index_data		MAP_INDEX_DATA;   /* maps */
-typedef struct	map_data		MAP_DATA;   /* maps */
-typedef struct	room_index_data		ROOM_INDEX_DATA;
-typedef struct	shop_data		SHOP_DATA;
-typedef struct	repairshop_data		REPAIR_DATA;
-typedef struct	time_info_data		TIME_INFO_DATA;
-typedef struct	hour_min_sec		HOUR_MIN_SEC;
-typedef struct	weather_data		WEATHER_DATA;
-typedef struct  planet_data		PLANET_DATA;
-typedef struct  guard_data		GUARD_DATA;
-typedef struct  space_data              SPACE_DATA;
-typedef	struct	clan_data		CLAN_DATA;
-typedef	struct	senate_data		SENATE_DATA;
-typedef struct  ship_data               SHIP_DATA;
-typedef struct  hanger_data             HANGER_DATA;
-typedef struct  turret_data             TURRET_DATA;
-typedef struct  ship_prototype_data     SHIP_PROTOTYPE;
-typedef struct  missile_data            MISSILE_DATA;
-typedef struct  tourney_data            TOURNEY_DATA;
-typedef struct	mob_prog_data		MPROG_DATA;
-typedef struct	mob_prog_act_list	MPROG_ACT_LIST;
-typedef	struct	editor_data		EDITOR_DATA;
-typedef struct	teleport_data		TELEPORT_DATA;
-typedef struct	timer_data		TIMER;
-typedef struct  vote_data		VOTE_DATA;
-typedef struct	system_data		SYSTEM_DATA;
-typedef	struct	smaug_affect		SMAUG_AFF;
-typedef struct  who_data                WHO_DATA;
-typedef	struct	skill_type		SKILLTYPE;
-typedef	struct	social_type		SOCIALTYPE;
-typedef	struct	cmd_type		CMDTYPE;
-typedef	struct	killed_data		KILLED_DATA;
-typedef struct	wizent			WIZENT;
+typedef struct affect_data		    AFFECT_DATA;
+typedef struct area_data		    AREA_DATA;
+typedef struct auction_data         AUCTION_DATA; /* auction data */
+typedef struct ban_data		        BAN_DATA;
+typedef struct extracted_char_data  EXTRACT_CHAR_DATA;
+typedef struct char_data		    CHAR_DATA;
+typedef struct hunt_hate_fear		HHF_DATA;
+typedef struct fighting_data		FIGHT_DATA;
+typedef struct descriptor_data		DESCRIPTOR_DATA;
+typedef struct exit_data		    EXIT_DATA;
+typedef struct extra_descr_data	    EXTRA_DESCR_DATA;
+typedef struct help_data		    HELP_DATA;
+typedef struct menu_data		    MENU_DATA;
+typedef struct mob_index_data		MOB_INDEX_DATA;
+typedef struct note_data		    NOTE_DATA;
+typedef struct board_data		    BOARD_DATA;
+typedef struct obj_data		        OBJ_DATA;
+typedef struct obj_index_data		OBJ_INDEX_DATA;
+typedef struct pc_data			    PC_DATA;
+typedef struct map_index_data		MAP_INDEX_DATA;   /* maps */
+typedef struct map_data		        MAP_DATA;   /* maps */
+typedef struct room_index_data		ROOM_INDEX_DATA;
+typedef struct shop_data		    SHOP_DATA;
+typedef struct repairshop_data		REPAIR_DATA;
+typedef struct time_info_data		TIME_INFO_DATA;
+typedef struct hour_min_sec		    HOUR_MIN_SEC;
+typedef struct weather_data		    WEATHER_DATA;
+typedef struct planet_data		    PLANET_DATA;
+typedef struct guard_data		    GUARD_DATA;
+typedef struct space_data           SPACE_DATA;
+typedef	struct clan_data		    CLAN_DATA;
+typedef	struct senate_data		    SENATE_DATA;
+typedef struct ship_data            SHIP_DATA;
+typedef struct hanger_data          HANGER_DATA;
+typedef struct turret_data          TURRET_DATA;
+typedef struct ship_prototype_data  SHIP_PROTOTYPE;
+typedef struct missile_data         MISSILE_DATA;
+typedef struct tourney_data         TOURNEY_DATA;
+typedef struct mob_prog_data		MPROG_DATA;
+typedef struct mob_prog_act_list	MPROG_ACT_LIST;
+typedef	struct editor_data		    EDITOR_DATA;
+typedef struct teleport_data		TELEPORT_DATA;
+typedef struct timer_data		    TIMER;
+typedef struct vote_data		    VOTE_DATA;
+typedef struct system_data		    SYSTEM_DATA;
+typedef	struct smaug_affect		    SMAUG_AFF;
+typedef struct who_data             WHO_DATA;
+typedef	struct skill_type		    SKILLTYPE;
+typedef	struct social_type		    SOCIALTYPE;
+typedef	struct cmd_type		        CMDTYPE;
+typedef	struct killed_data		    KILLED_DATA;
+typedef struct wizent			    WIZENT;
 
 /*
  * Function types.
@@ -138,43 +138,44 @@ typedef ch_ret	SPELL_FUN(int sn, int level, CHAR_DATA* ch, void* vo);
 /*
  * String and memory management parameters.
  */
-#define MAX_KEY_HASH		 2048
-#define MAX_STRING_LENGTH	 4096  /* buf */
-#define MAX_INPUT_LENGTH	 1024  /* arg */
-#define MAX_INBUF_SIZE		 1024
+#define MAX_KEY_HASH        2048
+#define MAX_STRING_LENGTH   4096    /* buf */
+#define MAX_INPUT_LENGTH    1024    /* arg */
+#define MAX_INBUF_SIZE      1024
 
-#define HASHSTR			 /* use string hashing */
+#define HASHSTR                     /* use string hashing */
 
-#define	MAX_LAYERS		 8	/* maximum clothing layers */
-#define MAX_NEST	       100	/* maximum container nesting */
+#define	MAX_LAYERS		    8       /* maximum clothing layers */
+#define MAX_NEST            100     /* maximum container nesting */
 
-#define MAX_KILLTRACK		20	/* track mob vnums killed */
+#define MAX_KILLTRACK		20      /* track mob vnums killed */
 
 /*
  * Game parameters.
  * Increase the max'es if you add more of something.
  * Adjust the pulse numbers to suit yourself.
  */
-#define MAX_EXP_WORTH	       500000
-#define MIN_EXP_WORTH		   25
+#define MAX_EXP_WORTH	    500000
+#define MIN_EXP_WORTH		25
 
-#define MAX_REXITS		   20	/* Maximum exits allowed in 1 room */
-#define MAX_SKILL		  276
-#define MAX_LEVEL		  105
-#define MAX_CLAN		   50
-#define MAX_PLANET		  100
-#define MAX_SHIP                 1000
-#define MAX_SHIP_ROOMS             25
+#define MAX_REXITS		    20      /* Maximum exits allowed in 1 room */
+#define MAX_SKILL		    276
+#define MAX_LEVEL		    105
+#define MAX_CLAN		    50
+#define MAX_PLANET		    100
+#define MAX_SHIP            1000
+#define MAX_SHIP_ROOMS      25
 
-#define PULSE_PER_SECOND	    4
-#define PULSE_MINUTE              ( 60 * PULSE_PER_SECOND)
-#define PULSE_VIOLENCE		  (  3 * PULSE_PER_SECOND)
-#define PULSE_MOBILE		  (  4 * PULSE_PER_SECOND)
-#define PULSE_TICK		  ( 70 * PULSE_PER_SECOND)
-#define PULSE_AUCTION             ( 10 * PULSE_PER_SECOND)
-#define PULSE_SPACE               ( 10 * PULSE_PER_SECOND)
-#define PULSE_TAXES               ( 60 * PULSE_MINUTE)
-#define PULSE_AREA		  ( 15 * PULSE_MINUTE)
+#define PULSE_PER_SECOND    4
+#define PULSE_MINUTE        (60 * PULSE_PER_SECOND)
+#define PULSE_VIOLENCE		( 3 * PULSE_PER_SECOND)
+#define PULSE_MOBILE		( 4 * PULSE_PER_SECOND)
+#define PULSE_TICK		    (70 * PULSE_PER_SECOND)
+#define PULSE_AUCTION       (10 * PULSE_PER_SECOND)
+#define PULSE_SPACE         (10 * PULSE_PER_SECOND)
+#define PULSE_TAXES         (60 * PULSE_MINUTE)
+#define PULSE_AREA		    (15 * PULSE_MINUTE)
+
 /*
  * Command logging types.
  */
@@ -197,15 +198,15 @@ typedef enum
 } ret_types;
 
 /* Echo types for echo_to_all */
-#define ECHOTAR_ALL	0
-#define ECHOTAR_PC	1
-#define ECHOTAR_IMM	2
+#define ECHOTAR_ALL 0
+#define ECHOTAR_PC  1
+#define ECHOTAR_IMM 2
 
 /* defines for new do_who */
-#define WT_MORTAL 0
-#define WT_IMM    2
-#define WT_AVATAR 1
-#define WT_NEWBIE 3
+#define WT_MORTAL   0
+#define WT_IMM      2
+#define WT_AVATAR   1
+#define WT_NEWBIE   3
 
 /*
  * do_who output structure -- Narn
@@ -295,6 +296,11 @@ typedef enum
     SUB_ROOM_EXIT_DESC, SUB_WRITING_NOTE, SUB_MPROG_EDIT, SUB_HELP_EDIT,
     SUB_WRITING_MAP, SUB_PERSONAL_BIO, SUB_REPEATCMD, SUB_RESTRICTED,
     SUB_SHIPDESC, SUB_CLANDESC,
+
+    /**
+     * @brief Character is editing a change description.
+     */
+    SUB_CHANGE_DESC,
     /* timer types ONLY below this point */
     SUB_TIMER_DO_ABORT = 128, SUB_TIMER_CANT_ABORT
 } char_substates;
@@ -463,12 +469,12 @@ struct  frc_app_type
 #define AT_RESET	   AT_DGREEN
 #define AT_LOG		   AT_PURPLE
 #define AT_DIEMSG	   AT_WHITE
-#define AT_WARTALK         AT_RED
-#define AT_SHIP            AT_PINK
-#define AT_CLAN            AT_PINK
+#define AT_WARTALK     AT_RED
+#define AT_SHIP        AT_PINK
+#define AT_CLAN        AT_PINK
 
-#define INIT_WEAPON_CONDITION    12
-#define MAX_ITEM_IMPACT		 30
+#define INIT_WEAPON_CONDITION   12
+#define MAX_ITEM_IMPACT		    30
 
 /*
  * Help table types.
@@ -858,7 +864,6 @@ struct	smaug_affect
     char* modifier;
     int			bitvector;
 };
-
 
 /***************************************************************************
  *                                                                         *
