@@ -37,6 +37,14 @@ typedef struct change_data
      * @brief Description of the change.
      */
     char* description;
+
+    /**
+     * @brief If the changes are published for everyone to view. 
+     */
+    bool is_published;
 } CHANGE_DATA;
+
+void do_changes(CHAR_DATA* ch, const char* argument);
+void do_changeedit(CHAR_DATA* ch, const char* argument);
 
 #endif

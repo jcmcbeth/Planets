@@ -6,11 +6,6 @@
 CHANGE_DATA* first_change;
 CHANGE_DATA* last_change;
 
-/**
- * @brief
- * @param ch
- * @param argument
- */
 void do_changes(CHAR_DATA* ch, const char* argument)
 {
     CHANGE_DATA* change;
@@ -49,6 +44,11 @@ void do_changeedit(CHAR_DATA* ch, const char* argument)
         return;
     }
 
+    if (ch->substate == SUB_CHANGE_DESC)
+    {
+        return;
+    }
+
     switch (ch->substate)
     {
         default:
@@ -56,6 +56,14 @@ void do_changeedit(CHAR_DATA* ch, const char* argument)
         case SUB_CHANGE_DESC:
             return;
     }
+
+    /*
+    * changeedit create <title>
+    * changeedit delete <vnum>
+    * changeedit edit <vnum> <field>
+    * changeedit list
+    * changeedit publish
+    */
 
     change = get_change(ch, argument);
     if (change == NULL)
