@@ -93,6 +93,12 @@ int	make_color_sequence(const char* col, char* buf, DESCRIPTOR_DATA* d);
 void	set_pager_input(DESCRIPTOR_DATA* d, char* argument);
 bool	pager_output(DESCRIPTOR_DATA* d);
 
+/**
+ * @brief Determines if a descriptor is idle by how long it has been since the last received input.
+ * @param descriptor The descriptor to determine if it is idle.
+ * @return TRUE if the descriptor is idle, FALSE if the descriptor is not idle.
+ */
+bool    is_idle(DESCRIPTOR_DATA* descriptor);
 
 
 void	mail_count(CHAR_DATA* ch);
@@ -427,9 +433,8 @@ void game_loop()
                 continue;
             }
             else
-                if ((!d->character && d->idle > 360)		  /* 2 mins */
-                    || (d->connected != CON_PLAYING && d->idle > 1200) /* 5 mins */
-                    || d->idle > 28800)				  /* 2 hrs  */
+            {
+                if (is_idle(d))
                 {
                     write_to_descriptor(d->descriptor,
                                         "Idle timeout... disconnecting.\n\r", 0);
@@ -516,6 +521,8 @@ void game_loop()
                             }
                     }
                 }
+            }
+
             if (d == last_descriptor)
                 break;
         }
@@ -3154,4 +3161,24 @@ bool pager_output(DESCRIPTOR_DATA* d)
         ret = write_to_descriptor(d->descriptor, buf, 0);
     }
     return ret;
+}
+
+bool is_idle(DESCRIPTOR_DATA* descriptor)
+{
+    if (!descriptor->character && descriptor->idle > 360) // 2 minutes?
+    {
+        return TRUE;
+    }
+
+    if (descriptor->connected != CON_PLAYING && descriptor->idle > 1200) // 5 minutes?
+    {
+        return TRUE;
+    }
+
+    if (!IS_IMMORTAL(descriptor->character) && descriptor->idle > 28800) // 2 hours?
+    {
+        return TRUE;
+    }
+
+    return FALSE;
 }
