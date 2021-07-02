@@ -3165,7 +3165,7 @@ bool pager_output(DESCRIPTOR_DATA* d)
 
 bool is_idle(DESCRIPTOR_DATA* descriptor)
 {
-    if (!descriptor->character && descriptor->idle > 360) // 2 minutes?
+    if (descriptor->character == NULL && descriptor->idle > 360) // 2 minutes?
     {
         return TRUE;
     }
@@ -3175,7 +3175,7 @@ bool is_idle(DESCRIPTOR_DATA* descriptor)
         return TRUE;
     }
 
-    if (!IS_IMMORTAL(descriptor->character) && descriptor->idle > 28800) // 2 hours?
+    if ((descriptor->character == NULL || !IS_IMMORTAL(descriptor->character)) && descriptor->idle > 28800) // 2 hours?
     {
         return TRUE;
     }
