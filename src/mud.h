@@ -23,17 +23,8 @@ typedef	int				obj_ret;
 #define BERR	 255
 #endif
 
-#if	defined(_AIX)
-#if	!defined(const)
-#define const
-#endif
-typedef int				sh_int;
-typedef int				bool;
-#define unix
-#else
 typedef short    int			sh_int;
 typedef unsigned char			bool;
-#endif
 
 /*
  * Structure types.
@@ -166,15 +157,22 @@ typedef ch_ret	SPELL_FUN(int sn, int level, CHAR_DATA* ch, void* vo);
 #define MAX_SHIP                 1000
 #define MAX_SHIP_ROOMS             25
 
-#define PULSE_PER_SECOND	    4
-#define PULSE_MINUTE              ( 60 * PULSE_PER_SECOND)
-#define PULSE_VIOLENCE		  (  3 * PULSE_PER_SECOND)
-#define PULSE_MOBILE		  (  4 * PULSE_PER_SECOND)
-#define PULSE_TICK		  ( 70 * PULSE_PER_SECOND)
-#define PULSE_AUCTION             ( 10 * PULSE_PER_SECOND)
-#define PULSE_SPACE               ( 10 * PULSE_PER_SECOND)
-#define PULSE_TAXES               ( 60 * PULSE_MINUTE)
-#define PULSE_AREA		  ( 15 * PULSE_MINUTE)
+#define PULSE_PER_SECOND        4
+#define PULSE_MINUTE            (60 * PULSE_PER_SECOND)
+#define PULSE_HOUR              (60 * PULSE_MINUTE)
+#define PULSE_VIOLENCE          (3 * PULSE_PER_SECOND)
+#define PULSE_MOBILE            (4 * PULSE_PER_SECOND)
+#define PULSE_TICK              (70 * PULSE_PER_SECOND)
+#define PULSE_AUCTION           (10 * PULSE_PER_SECOND)
+#define PULSE_SPACE             (10 * PULSE_PER_SECOND)
+#define PULSE_TAXES             (60 * PULSE_MINUTE)
+#define PULSE_AREA              (15 * PULSE_MINUTE)
+
+#define MAX_IDLE                (168 * PULSE_HOUR)  // 1 week
+#define MAX_NON_CHARCTER_IDLE   (2 * PULSE_MINUTE)  // 2 minutes
+#define MAX_NON_PLAYING_IDLE    (5 * PULSE_MINUTE)  // 5 minutes
+#define MAX_PLAYING_IDLE        (2 * PULSE_HOUR)    // 2 hours
+
 /*
  * Command logging types.
  */
@@ -307,37 +305,41 @@ struct	descriptor_data
     DESCRIPTOR_DATA* next;
     DESCRIPTOR_DATA* prev;
     DESCRIPTOR_DATA* snoop_by;
-    CHAR_DATA* character;
-    CHAR_DATA* original;
-    char* host;
-    char* hostip;
-    int			port;
-    int			descriptor;
-    sh_int		connected;
-    sh_int		idle;
-    sh_int		lines;
-    sh_int		scrlen;
-    bool		fcommand;
-    char		inbuf[MAX_INBUF_SIZE];
-    char		incomm[MAX_INPUT_LENGTH];
-    char		inlast[MAX_INPUT_LENGTH];
-    int			repeat;
-    char* outbuf;
+    CHAR_DATA*      character;
+    CHAR_DATA*      original;
+    char*           host;
+    char*           hostip;
+    int			    port;
+    int			    descriptor;
+    sh_int		    connected;
+
+    /**
+     * @brief The number of pulses the descriptor has been idle.
+     */
+    unsigned int	idle;
+    sh_int		    lines;
+    sh_int		    scrlen;
+    bool		    fcommand;
+    char		    inbuf[MAX_INBUF_SIZE];
+    char		    incomm[MAX_INPUT_LENGTH];
+    char		    inlast[MAX_INPUT_LENGTH];
+    int			    repeat;
+    char*           outbuf;
     unsigned long	outsize;
-    int			outtop;
-    char* pagebuf;
+    int			    outtop;
+    char*           pagebuf;
     unsigned long	pagesize;
-    int			pagetop;
-    char* pagepoint;
-    char		pagecmd;
-    char		pagecolor;
-    int			auth_inc;
-    int			auth_state;
-    char		abuf[256];
-    int			auth_fd;
-    char* user;
-    int 		atimes;
-    int			newstate;
+    int			    pagetop;
+    char*           pagepoint;
+    char		    pagecmd;
+    char		    pagecolor;
+    int			    auth_inc;
+    int			    auth_state;
+    char		    abuf[256];
+    int			    auth_fd;
+    char*           user;
+    int 		    atimes;
+    int			    newstate;
     unsigned char	prevcolor;
 };
 

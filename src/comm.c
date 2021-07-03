@@ -9,6 +9,7 @@
 #include <fcntl.h>
 #include <signal.h>
 #include <stdarg.h>
+#include <limits.h>
 #include "mud.h"
 
 /*
@@ -3165,17 +3166,23 @@ bool pager_output(DESCRIPTOR_DATA* d)
 
 bool is_idle(DESCRIPTOR_DATA* descriptor)
 {
-    if (descriptor->character == NULL && descriptor->idle > 360) // 2 minutes?
+    if (descriptor->idle >= MAX_IDLE)
     {
         return TRUE;
     }
 
-    if (descriptor->connected != CON_PLAYING && descriptor->idle > 1200) // 5 minutes?
+    if (descriptor->character == NULL && descriptor->idle > MAX_NON_CHARCTER_IDLE)
     {
         return TRUE;
     }
 
-    if ((descriptor->character == NULL || !IS_IMMORTAL(descriptor->character)) && descriptor->idle > 28800) // 2 hours?
+    if (descriptor->connected != CON_PLAYING && descriptor->idle > MAX_NON_PLAYING_IDLE)
+    {
+        return TRUE;
+    }
+
+    if ((descriptor->character == NULL || !IS_IMMORTAL(descriptor->character)) &&
+        descriptor->idle > MAX_PLAYING_IDLE)
     {
         return TRUE;
     }

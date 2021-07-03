@@ -2838,10 +2838,9 @@ void do_users(CHAR_DATA* ch, char* argument)
     buf[0] = '\0';
 
     set_pager_color(AT_PLAIN, ch);
-    sprintf(buf,
-            "Desc|Con|Idle| Port | Player@HostIP                 ");
+    sprintf(buf, "Desc|Con|  Idle  | Port | Player@HostIP                                         ");
     strcat(buf, "\n\r");
-    strcat(buf, "----+---+----+------+-------------------------------");
+    strcat(buf, "----+---+--------+------+-------------------------------------------------------");
     strcat(buf, "\n\r");
     send_to_pager(buf, ch);
 
@@ -2851,7 +2850,7 @@ void do_users(CHAR_DATA* ch, char* argument)
         {
             count++;
             sprintf(buf,
-                    " %3d| %2d|%4d|%6d| %s@%s ",
+                    " %3d| %2d|%8u|%6d| %s@%s ",
                     d->descriptor,
                     d->connected,
                     d->idle / 4,
