@@ -2878,7 +2878,7 @@ void display_prompt(DESCRIPTOR_DATA* d)
                             strcpy(pbuf, "neutral");
                         break;
                     case 'H':
-                        stat = ch->hit / ch->max_hit;
+                        stat = (ch->hit / (double)ch->max_hit) * 100;
                         break;
                     case 'h':
                         if (ch->hit >= 100)
@@ -2906,10 +2906,10 @@ void display_prompt(DESCRIPTOR_DATA* d)
                     case 'U':
                         stat = sysdata.maxplayers;
                         break;
-                    case 'v':
-                        stat = ch->move / ch->max_move;
-                        break;
                     case 'V':
+                        stat = (ch->move / (double)ch->max_move) * 100;
+                        break;
+                    case 'v':
                         if (ch->move > 500)
                             strcpy(pbuf, "energetic");
                         else if (ch->move > 100)
