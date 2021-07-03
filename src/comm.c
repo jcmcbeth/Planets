@@ -9,7 +9,6 @@
 #include <fcntl.h>
 #include <signal.h>
 #include <stdarg.h>
-#include <limits.h>
 #include "mud.h"
 
 /*

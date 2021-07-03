@@ -2853,7 +2853,7 @@ void do_users(CHAR_DATA* ch, char* argument)
                     " %3d| %2d|%8u|%6d| %s@%s ",
                     d->descriptor,
                     d->connected,
-                    d->idle / 4,
+                    d->idle / PULSE_PER_SECOND,
                     d->port,
                     d->original ? d->original->name :
                     d->character ? d->character->name : "(none)",
