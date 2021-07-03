@@ -2906,10 +2906,10 @@ void display_prompt(DESCRIPTOR_DATA* d)
                     case 'U':
                         stat = sysdata.maxplayers;
                         break;
-                    case 'v':
+                    case 'V':
                         stat = ch->move / ch->max_move;
                         break;
-                    case 'V':
+                    case 'v':
                         if (ch->move > 500)
                             strcpy(pbuf, "energetic");
                         else if (ch->move > 100)
