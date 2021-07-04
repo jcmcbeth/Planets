@@ -50,7 +50,6 @@
     <ClCompile Include="save.c" />
     <ClCompile Include="shops.c" />
     <ClCompile Include="skills.c" />
-    <ClCompile Include="smalloc.c" />
     <ClCompile Include="space.c" />
     <ClCompile Include="special.c" />
     <ClCompile Include="swskills.c" />
