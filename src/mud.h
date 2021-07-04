@@ -3489,6 +3489,13 @@ int	interpolate(int level, int value_00, int value_32);
 void	smash_tilde(char* str);
 void	hide_tilde(char* str);
 char* show_tilde(char* str);
+
+/**
+ * @brief Case insensitive comparison of strings to determine if they are different.
+ * @param astr First string to compare.
+ * @param bstr Second string to compare to the first string.
+ * @returns TRUE if different, FALSE if the same.
+ */
 bool	str_cmp(const char* astr, const char* bstr);
 bool	str_prefix(const char* astr, const char* bstr);
 bool	str_infix(const char* astr, const char* bstr);
