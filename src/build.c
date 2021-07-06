@@ -2968,9 +2968,12 @@ void do_rset(CHAR_DATA* ch, char* argument)
     return;
 }
 
-/*
- * Returns value 0 - 9 based on directional text.
- */
+/**
+ * @brief Gets the dir_type enumeration value based on the text.
+ * @param txt Text or argument that should contain a direction.
+ * @return The direction from the dir_type enumeration.
+ * @deprecated This is replaced with get_direction.
+*/
 int get_dir(char* txt)
 {
     int edir;
@@ -3021,6 +3024,76 @@ int get_dir(char* txt)
         case '?':  edir = 10; break; /* somewhere */
     }
     return edir;
+}
+
+DIR_TYPE get_direction(const char* direction_text)
+{
+    if (!str_cmp(direction_text, "north") ||
+        !str_cmp(direction_text, "n"))
+    {
+        return DIR_NORTH;
+    }
+
+    if (!str_cmp(direction_text, "south") ||
+        !str_cmp(direction_text, "s"))
+    {
+        return DIR_SOUTH;
+    }
+
+    if (!str_cmp(direction_text, "east") ||
+        !str_cmp(direction_text, "e"))
+    {
+        return DIR_EAST;
+    }
+
+    if (!str_cmp(direction_text, "west") ||
+        !str_cmp(direction_text, "w"))
+    {
+        return DIR_WEST;
+    }
+
+    if (!str_cmp(direction_text, "northeast") ||
+        !str_cmp(direction_text, "ne"))
+    {
+        return DIR_NORTHEAST;
+    }
+
+    if (!str_cmp(direction_text, "northwest") ||
+        !str_cmp(direction_text, "nw"))
+    {
+        return DIR_NORTHWEST;
+    }
+
+    if (!str_cmp(direction_text, "southeast") ||
+        !str_cmp(direction_text, "se"))
+    {
+        return DIR_SOUTHEAST;
+    }
+
+    if (!str_cmp(direction_text, "southwest") ||
+        !str_cmp(direction_text, "sw"))
+    {
+        return DIR_SOUTHWEST;
+    }
+
+    if (!str_cmp(direction_text, "up") ||
+        !str_cmp(direction_text, "u"))
+    {
+        return DIR_UP;
+    }
+
+    if (!str_cmp(direction_text, "down") ||
+        !str_cmp(direction_text, "d"))
+    {
+        return DIR_DOWN;
+    }
+
+    if (!str_cmp(direction_text, "somewhere"))
+    {
+        return DIR_SOMEWHERE;
+    }
+
+    return DIR_UNKNOWN;
 }
 
 void do_redit(CHAR_DATA* ch, char* argument)
