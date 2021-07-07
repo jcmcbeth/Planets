@@ -55,7 +55,9 @@ dkms.conf
 spacecraft/
 system/
 area/
-players/
+player/
+clans/
+planets/
 
 # Visual Studio
 .vs/

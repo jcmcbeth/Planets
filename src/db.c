@@ -2714,13 +2714,6 @@ char* show_tilde(char* str)
     return buf;
 }
 
-
-
-/*
- * Compare strings, case insensitive.
- * Return TRUE if different
- *   (compatibility with historical functions).
- */
 bool str_cmp(const char* astr, const char* bstr)
 {
     if (!astr)

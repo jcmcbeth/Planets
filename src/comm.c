@@ -81,7 +81,14 @@ bool	write_to_descriptor(int desc, char* txt, int length);
 bool	check_parse_name(char* name);
 bool	check_reconnect(DESCRIPTOR_DATA* d, char* name, bool fConn);
 bool	check_playing(DESCRIPTOR_DATA* d, char* name, bool kick);
-bool	check_multi(DESCRIPTOR_DATA* d, char* name);
+
+/**
+ * @brief Checks if the user behind the descriptor already has a character playing on another descriptor.
+ * @param new_descriptor Descriptor to check.
+ * @param name Name of the character for the descriptor.
+ * @return TRUE if the user is already playing on another descriptor, FALSE otherwise.
+*/
+bool	check_multi(DESCRIPTOR_DATA* new_descriptor, char* name);
 int	main(int argc, char** argv);
 void	nanny(DESCRIPTOR_DATA* d, char* argument);
 bool	flush_buffer(DESCRIPTOR_DATA* d, bool fPrompt);
@@ -93,6 +100,12 @@ int	make_color_sequence(const char* col, char* buf, DESCRIPTOR_DATA* d);
 void	set_pager_input(DESCRIPTOR_DATA* d, char* argument);
 bool	pager_output(DESCRIPTOR_DATA* d);
 
+/**
+ * @brief Determines if a descriptor is idle by how long it has been since the last received input.
+ * @param descriptor The descriptor to determine if it is idle.
+ * @return TRUE if the descriptor is idle, FALSE if the descriptor is not idle.
+ */
+bool    is_idle(DESCRIPTOR_DATA* descriptor);
 
 
 void	mail_count(CHAR_DATA* ch);
@@ -427,9 +440,8 @@ void game_loop()
                 continue;
             }
             else
-                if ((!d->character && d->idle > 360)		  /* 2 mins */
-                    || (d->connected != CON_PLAYING && d->idle > 1200) /* 5 mins */
-                    || d->idle > 28800)				  /* 2 hrs  */
+            {
+                if (is_idle(d))
                 {
                     write_to_descriptor(d->descriptor,
                                         "Idle timeout... disconnecting.\n\r", 0);
@@ -516,6 +528,8 @@ void game_loop()
                             }
                     }
                 }
+            }
+
             if (d == last_descriptor)
                 break;
         }
@@ -2157,47 +2171,41 @@ bool check_reconnect(DESCRIPTOR_DATA* d, char* name, bool fConn)
     return FALSE;
 }
 
-
-
-/*
- * Check if already playing.
- */
-
-bool check_multi(DESCRIPTOR_DATA* d, char* name)
+bool check_multi(DESCRIPTOR_DATA* new_descriptor, char* name)
 {
-    DESCRIPTOR_DATA* dold;
+    DESCRIPTOR_DATA* old_descriptor;
+    CHAR_DATA* old_character;
 
-    for (dold = first_descriptor; dold; dold = dold->next)
+    for (old_descriptor = first_descriptor; old_descriptor; old_descriptor = old_descriptor->next)
     {
-        if (dold != d
-            && (dold->character || dold->original)
-            && str_cmp(name, dold->original
-                       ? dold->original->name : dold->character->name)
-            && !str_cmp(dold->host, d->host))
+        if (old_descriptor == new_descriptor)
         {
-            const char* ok = "194.234.177";
-            const char* ok2 = "209.183.133.229";
-            int iloop;
+            continue;
+        }
 
-            for (iloop = 0; iloop < 11; iloop++)
-            {
-                if (ok[iloop] != d->host[iloop])
-                    break;
-            }
-            if (iloop >= 10)
-                return FALSE;
-            for (iloop = 0; iloop < 11; iloop++)
-            {
-                if (ok2[iloop] != d->host[iloop])
-                    break;
-            }
-            if (iloop >= 10)
-                return FALSE;
-            write_to_buffer(d, "Sorry multi-playing is not allowed ... have you other character quit first.\n\r", 0);
-            sprintf(log_buf, "%s attempting to multiplay with %s.", dold->original ? dold->original->name : dold->character->name, d->character->name);
+        old_character = old_descriptor->original != NULL ? old_descriptor->original : old_descriptor->character;
+
+        if (old_character == NULL)
+        {
+            continue;
+        }
+
+        if (IS_IMMORTAL(old_character))
+        {
+            continue;
+        }
+
+        // Checking the name lets you login with a different client and kick off the
+        // old connection.
+        if (str_cmp(name, old_character->name)
+            && !str_cmp(old_descriptor->host, new_descriptor->host))
+        {
+            write_to_buffer(new_descriptor, "Sorry multi-playing is not allowed ... have you other character quit first.\n\r", 0);
+            sprintf(log_buf, "%s attempting to multiplay with %s.", old_character->name, new_descriptor->character->name);
             log_string_plus(log_buf, LOG_COMM);
-            d->character = NULL;
-            free_char(d->character);
+            new_descriptor->character = NULL;
+            free_char(new_descriptor->character);
+
             return TRUE;
         }
     }
@@ -2871,7 +2879,7 @@ void display_prompt(DESCRIPTOR_DATA* d)
                             strcpy(pbuf, "neutral");
                         break;
                     case 'H':
-                        stat = ch->hit / ch->max_hit;
+                        stat = (ch->hit / (double)ch->max_hit) * 100;
                         break;
                     case 'h':
                         if (ch->hit >= 100)
@@ -2899,10 +2907,10 @@ void display_prompt(DESCRIPTOR_DATA* d)
                     case 'U':
                         stat = sysdata.maxplayers;
                         break;
-                    case 'v':
-                        stat = ch->move / ch->max_move;
-                        break;
                     case 'V':
+                        stat = (ch->move / (double)ch->max_move) * 100;
+                        break;
+                    case 'v':
                         if (ch->move > 500)
                             strcpy(pbuf, "energetic");
                         else if (ch->move > 100)
@@ -3154,4 +3162,24 @@ bool pager_output(DESCRIPTOR_DATA* d)
         ret = write_to_descriptor(d->descriptor, buf, 0);
     }
     return ret;
+}
+
+bool is_idle(DESCRIPTOR_DATA* descriptor)
+{
+    if (descriptor->character == NULL && descriptor->idle > 360) // 2 minutes?
+    {
+        return TRUE;
+    }
+
+    if (descriptor->connected != CON_PLAYING && descriptor->idle > 1200) // 5 minutes?
+    {
+        return TRUE;
+    }
+
+    if ((descriptor->character == NULL || !IS_IMMORTAL(descriptor->character)) && descriptor->idle > 28800) // 2 hours?
+    {
+        return TRUE;
+    }
+
+    return FALSE;
 }
