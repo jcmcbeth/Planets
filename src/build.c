@@ -2969,10 +2969,11 @@ void do_rset(CHAR_DATA* ch, char* argument)
 }
 
 /**
- * @brief Gets the dir_type enumeration value based on the text.
+ * @brief Gets the direction value (0-9) value based on the text.
  * @param txt Text or argument that should contain a direction.
- * @return The direction from the dir_type enumeration.
- * @deprecated This is replaced with get_direction.
+ * @return The direction (0-9).
+ * @deprecated This is replaced with get_direction due to accepting directions that
+ * are clearly not valid directions.
 */
 int get_dir(char* txt)
 {
@@ -3026,6 +3027,11 @@ int get_dir(char* txt)
     return edir;
 }
 
+/**
+ * @brief Gets the DIR_TYPE enumeration value based on the text.
+ * @param txt Text or argument that should contain a direction.
+ * @return The direction from the DIR_TYPE enumeration.
+*/
 DIR_TYPE get_direction(const char* direction_text)
 {
     if (!str_cmp(direction_text, "north") ||
