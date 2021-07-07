@@ -2945,118 +2945,128 @@ void do_landscape(CHAR_DATA* ch, char* argument)
 
 }
 
-void do_construction(CHAR_DATA* ch, char* argument)
+/**
+ * @brief Command to construct a new room in the specified direction.
+ * @param ch Character executing the command.
+ * @param argument Argument passed with the execution of the command.
+ */
+void do_construction(CHAR_DATA* character, char* argument)
 {
     CLAN_DATA* clan;
-    int chance, ll;
-    EXIT_DATA* xit;
-    EXIT_DATA* xit2;
-    int edir;
-    ROOM_INDEX_DATA* nRoom;
-    char buf[MAX_STRING_LENGTH];
+    int chance, learn_attempt;
+    EXIT_DATA* exit;
+    EXIT_DATA* reverse_exit;
+    sh_int direction;
+    ROOM_INDEX_DATA* new_room;
+    char buffer[MAX_STRING_LENGTH];
 
-    if (IS_NPC(ch) || !ch->pcdata || !ch->in_room)
+    if (IS_NPC(character) || !character->pcdata || !character->in_room)
         return;
 
-    clan = ch->pcdata->clan;
+    clan = character->pcdata->clan;
 
     if (!clan)
     {
-        send_to_char("You need to be part of an organization before you can do that!\n\r", ch);
+        send_to_char("You need to be part of an organization before you can do that!\n\r", character);
         return;
     }
 
-    if ((ch->pcdata && ch->pcdata->bestowments
-         && is_name("build", ch->pcdata->bestowments))
-        || nifty_is_name(ch->name, clan->leaders))
+    if ((character->pcdata && character->pcdata->bestowments
+         && is_name("build", character->pcdata->bestowments))
+        || nifty_is_name(character->name, clan->leaders))
         ;
     else
     {
-        send_to_char("Your organization hasn't given you permission to build on their lands!\n\r", ch);
+        send_to_char("Your organization hasn't given you permission to build on their lands!\n\r", character);
         return;
     }
 
-    if (!ch->in_room->area || !ch->in_room->area->planet ||
-        clan != ch->in_room->area->planet->governed_by)
+    if (!character->in_room->area || !character->in_room->area->planet ||
+        clan != character->in_room->area->planet->governed_by)
     {
-        send_to_char("You may only build on planets that your organization controls!\n\r", ch);
+        send_to_char("You may only build on planets that your organization controls!\n\r", character);
         return;
     }
 
-    if (ch->in_room->area->planet->size >= 2000)
+    if (character->in_room->area->planet->size >= 2000)
     {
-        send_to_char("This planet is big enough. Go build somewhere else...\n\r", ch);
+        send_to_char("This planet is big enough. Go build somewhere else...\n\r", character);
         return;
     }
 
-    if (IS_SET(ch->in_room->room_flags, ROOM_NOPEDIT))
+    if (IS_SET(character->in_room->room_flags, ROOM_NOPEDIT))
     {
-        send_to_char("Sorry, But you may not edit this room.\n\r", ch);
+        send_to_char("Sorry, But you may not edit this room.\n\r", character);
         return;
     }
 
     if (argument[0] == '\0')
     {
-        send_to_char("Begin construction in what direction?\n\r", ch);
+        send_to_char("Begin construction in what direction?\n\r", character);
         return;
     }
 
-    if (ch->gold < 500)
+    if (character->gold < 500)
     {
-        send_to_char("You do not have enough money. It will cost you 500 credits to do that.\n\r", ch);
+        send_to_char("You do not have enough money. It will cost you 500 credits to do that.\n\r", character);
         return;
     }
 
-    edir = get_dir(argument);
-    xit = get_exit(ch->in_room, edir);
-    if (xit)
+    direction = get_direction(argument);
+    if (direction == DIR_UNKNOWN)
     {
-        send_to_char("There is already a room in that direction.\n\r", ch);
+        send_to_char("There is no such direction.\n\r", character);
         return;
     }
 
-    chance = (int)(ch->pcdata->learned[gsn_construction]);
+    exit = get_exit(character->in_room, direction);
+    if (exit)
+    {
+        send_to_char("There is already a room in that direction.\n\r", character);
+        return;
+    }
+
+    chance = (int)(character->pcdata->learned[gsn_construction]);
     if (number_percent() > chance)
     {
-        send_to_char("You can't quite get the desired affect.\n\r", ch);
-        ch->gold -= 5;
+        send_to_char("You can't quite get the desired affect.\n\r", character);
+        character->gold -= 5;
         return;
     }
 
-    ch->gold -= 500;
+    character->gold -= 500;
 
-    nRoom = make_room(++top_r_vnum);
-    nRoom->area = ch->in_room->area;
-    LINK(nRoom, ch->in_room->area->first_room, ch->in_room->area->last_room, next_in_area, prev_in_area);
-    STRFREE(nRoom->name);
-    STRFREE(nRoom->description);
-    nRoom->name = STRALLOC("Construction Site");
-    nRoom->description = STRALLOC("\n\rThis area is under construction.\n\rIt still needs some landscaping.\n\r\n\r");
-    nRoom->sector_type = SECT_DUNNO;
-    SET_BIT(nRoom->room_flags, ROOM_NO_MOB);
+    new_room = make_room(++top_r_vnum);
+    new_room->area = character->in_room->area;
+    LINK(new_room, character->in_room->area->first_room, character->in_room->area->last_room, next_in_area, prev_in_area);
+    STRFREE(new_room->name);
+    STRFREE(new_room->description);
+    new_room->name = STRALLOC("Construction Site");
+    new_room->description = STRALLOC("\n\rThis area is under construction.\n\rIt still needs some landscaping.\n\r\n\r");
+    new_room->sector_type = SECT_DUNNO;
+    SET_BIT(new_room->room_flags, ROOM_NO_MOB);
 
-    xit = make_exit(ch->in_room, nRoom, edir);
-    xit->keyword = STRALLOC("");
-    xit->description = STRALLOC("");
-    xit->key = -1;
-    xit->exit_info = 0;
+    exit = make_exit(character->in_room, new_room, direction);
+    exit->keyword = STRALLOC("");
+    exit->description = STRALLOC("");
+    exit->key = -1;
+    exit->exit_info = 0;
 
-    xit2 = make_exit(nRoom, ch->in_room, rev_dir[edir]);
-    xit2->keyword = STRALLOC("");
-    xit2->description = STRALLOC("");
-    xit2->key = -1;
-    xit2->exit_info = 0;
+    reverse_exit = make_exit(new_room, character->in_room, rev_dir[direction]);
+    reverse_exit->keyword = STRALLOC("");
+    reverse_exit->description = STRALLOC("");
+    reverse_exit->key = -1;
+    reverse_exit->exit_info = 0;
 
-    ch->in_room->area->planet->size++;
+    character->in_room->area->planet->size++;
 
-    for (ll = 1; ll <= 20; ll++)
-        learn_from_success(ch, gsn_construction);
+    for (learn_attempt = 1; learn_attempt <= 20; learn_attempt++)
+        learn_from_success(character, gsn_construction);
 
-    SET_BIT(ch->in_room->area->flags, AFLAG_MODIFIED);
+    SET_BIT(character->in_room->area->flags, AFLAG_MODIFIED);
 
-    sprintf(buf, "A construction crew begins working on a new area to the %s.", dir_name[edir]);
-    echo_to_room(AT_WHITE, ch->in_room, buf);
-
+    sprintf(buffer, "A construction crew begins working on a new area to the %s.", dir_name[direction]);
+    echo_to_room(AT_WHITE, character->in_room, buffer);
 }
 
 void do_bridge(CHAR_DATA* ch, char* argument)

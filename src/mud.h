@@ -1395,48 +1395,55 @@ typedef enum
  *			 Lets put it all back... ;)
  */
 
-#define ROOM_DARK		BV00
+#define ROOM_DARK       BV00
 /* BV01 now reserved for track  BV01  and hunt */
-#define ROOM_NO_MOB		BV02
-#define ROOM_INDOORS		BV03
-#define ROOM_CAN_LAND		BV04
-#define ROOM_GARAGE		BV05
-#define ROOM_CONTROL	 	BV06  
-#define ROOM_TRADE		BV07
-#define ROOM_BANK		BV08
-#define R9			BV09
-#define ROOM_SAFE		BV10
-#define ROOM_MAIL		BV11
-#define ROOM_INFO		BV12
-#define R13			BV13
-#define ROOM_SHIPYARD		BV14
-#define ROOM_BARRACKS		BV15
-#define R16			BV16
-#define ROOM_NOPEDIT		BV17 /* players can't edit */
-#define R18			BV18
-#define ROOM_RESTAURANT		BV19
-#define ROOM_PLR_HOME		BV20
-#define ROOM_EMPTY_HOME 	BV21
-#define R22			BV22
-#define ROOM_HOTEL      	BV23
-#define ROOM_NOFLOOR		BV24
-#define ROOM_PAWN	        BV25
-#define ROOM_SUPPLY             BV26
-#define ROOM_BAR                BV27
-#define ROOM_EMPLOYMENT         BV28
-#define ROOM_SPACECRAFT         BV29
-#define R30		     	BV30
-#define ROOM_AUCTION            BV31
+#define ROOM_NO_MOB     BV02
+#define ROOM_INDOORS    BV03
+#define ROOM_CAN_LAND   BV04
+#define ROOM_GARAGE     BV05
+#define ROOM_CONTROL    BV06  
+#define ROOM_TRADE      BV07
+#define ROOM_BANK       BV08
+#define R9              BV09
+#define ROOM_SAFE       BV10
+#define ROOM_MAIL       BV11
+#define ROOM_INFO       BV12
+#define R13             BV13
+#define ROOM_SHIPYARD   BV14
+#define ROOM_BARRACKS   BV15
+#define R16             BV16
+#define ROOM_NOPEDIT    BV17 /* players can't edit */
+#define R18             BV18
+#define ROOM_RESTAURANT BV19
+#define ROOM_PLR_HOME   BV20
+#define ROOM_EMPTY_HOME BV21
+#define R22             BV22
+#define ROOM_HOTEL      BV23
+#define ROOM_NOFLOOR    BV24
+#define ROOM_PAWN       BV25
+#define ROOM_SUPPLY     BV26
+#define ROOM_BAR        BV27
+#define ROOM_EMPLOYMENT BV28
+#define ROOM_SPACECRAFT BV29
+#define R30             BV30
+#define ROOM_AUCTION    BV31
 
-/*
- * Directions.
- * Used in #ROOMS.
- */
-typedef enum
+
+enum dir_type
 {
     DIR_NORTH, DIR_EAST, DIR_SOUTH, DIR_WEST, DIR_UP, DIR_DOWN,
-    DIR_NORTHEAST, DIR_NORTHWEST, DIR_SOUTHEAST, DIR_SOUTHWEST, DIR_SOMEWHERE
-} dir_types;
+    DIR_NORTHEAST, DIR_NORTHWEST, DIR_SOUTHEAST, DIR_SOUTHWEST, DIR_SOMEWHERE,
+
+    /**
+     * @brief An unknown direction.
+     */
+     DIR_UNKNOWN
+};
+
+/**
+ * @brief Directions. Used in #ROOMS.
+ */
+typedef enum dir_type DIR_TYPE;
 
 #define MAX_DIR			DIR_SOUTHWEST	/* max for normal walking */
 #define DIR_PORTAL		DIR_SOMEWHERE	/* portal direction	  */
