@@ -2496,7 +2496,7 @@ void do_hijack(CHAR_DATA* ch, char* argument)
 }
 
 
-void do_propeganda(CHAR_DATA* ch, char* argument)
+void do_propaganda(CHAR_DATA* ch, char* argument)
 {
     char buf[MAX_STRING_LENGTH];
     char arg1[MAX_INPUT_LENGTH];

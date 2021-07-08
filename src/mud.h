@@ -2847,7 +2847,7 @@ DO_FUN do_makeplanet;
 DO_FUN do_planets;
 DO_FUN do_teach;
 DO_FUN do_quicktalk;
-DO_FUN do_propeganda;
+DO_FUN do_propaganda;
 DO_FUN do_autopilot;
 DO_FUN do_allspeeders;
 DO_FUN do_speeders;

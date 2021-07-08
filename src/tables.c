@@ -325,7 +325,7 @@ DO_FUN* skill_function(char* name)
             if (!str_cmp(name, "do_poison_weapon"))	return do_poison_weapon;
             if (!str_cmp(name, "do_postguard"))		return do_postguard;
             if (!str_cmp(name, "do_prompt"))		return do_prompt;
-            if (!str_cmp(name, "do_propeganda"))		return do_propeganda;
+            if (!str_cmp(name, "do_propaganda"))		return do_propaganda;
             if (!str_cmp(name, "do_prototypes"))		return do_prototypes;
             if (!str_cmp(name, "do_purge"))		return do_purge;
             if (!str_cmp(name, "do_put"))		return do_put;
@@ -525,7 +525,7 @@ char* skill_name(DO_FUN* skill)
     if (skill == do_teach)     return "do_teach";
     if (skill == do_quicktalk)     return "do_quicktalk";
     if (skill == do_bridge)     return "do_bridge";
-    if (skill == do_propeganda)     return "do_propeganda";
+    if (skill == do_propaganda)     return "do_propaganda";
     if (skill == do_autopilot)     return "do_autopilot";
     if (skill == do_allspeeders)     return "do_allspeeders";
     if (skill == do_speeders)     return "do_speeders";
