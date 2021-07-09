@@ -2246,7 +2246,7 @@ extern sh_int   gsn_reinforcements;
 extern sh_int   gsn_postguard;
 
 extern sh_int   gsn_quicktalk;
-extern sh_int   gsn_propeganda;
+extern sh_int   gsn_propaganda;
 
 extern sh_int   gsn_torture;
 extern sh_int   gsn_throw;

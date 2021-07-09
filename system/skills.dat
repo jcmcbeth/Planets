@@ -626,7 +626,7 @@ Wearoff      !post guard!~
 End
 
 #SKILL
-Name         propeganda~
+Name         propaganda~
 Type         Skill
 Flags        0
 Minpos       8
