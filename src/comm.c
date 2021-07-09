@@ -1689,7 +1689,7 @@ void nanny(DESCRIPTOR_DATA* d, char* argument)
                 ch->pcdata->learned[gsn_survey] = 50;
                 ch->pcdata->learned[gsn_postguard] = 50;
                 ch->pcdata->learned[gsn_reinforcements] = 50;
-                ch->pcdata->learned[gsn_propeganda] = 50;
+                ch->pcdata->learned[gsn_propaganda] = 50;
                 ch->pcdata->num_skills = 5;
                 sprintf(buf, "Senator %s", ch->name);
                 set_title(ch, buf);

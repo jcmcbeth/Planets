@@ -2496,7 +2496,7 @@ void do_hijack(CHAR_DATA* ch, char* argument)
 }
 
 
-void do_propeganda(CHAR_DATA* ch, char* argument)
+void do_propaganda(CHAR_DATA* ch, char* argument)
 {
     char buf[MAX_STRING_LENGTH];
     char arg1[MAX_INPUT_LENGTH];
@@ -2521,7 +2521,7 @@ void do_propeganda(CHAR_DATA* ch, char* argument)
 
     if (arg1[0] == '\0')
     {
-        send_to_char("Spread propeganda to who?\n\r", ch);
+        send_to_char("Spread propaganda to who?\n\r", ch);
         return;
     }
 
@@ -2585,9 +2585,9 @@ void do_propeganda(CHAR_DATA* ch, char* argument)
     act(AT_ACTION, "$n speaks about his organization.\n\r", ch, NULL, victim, TO_VICT);
     act(AT_ACTION, "$n tells $N about their organization.\n\r", ch, NULL, victim, TO_NOTVICT);
 
-    WAIT_STATE(ch, skill_table[gsn_propeganda]->beats);
+    WAIT_STATE(ch, skill_table[gsn_propaganda]->beats);
 
-    if (percent - get_curr_cha(ch) + victim->top_level > ch->pcdata->learned[gsn_propeganda])
+    if (percent - get_curr_cha(ch) + victim->top_level > ch->pcdata->learned[gsn_propaganda])
     {
 
         if (planet->governed_by != clan)
@@ -2618,7 +2618,7 @@ void do_propeganda(CHAR_DATA* ch, char* argument)
         ch->perm_cha = UMIN(ch->perm_cha, 25);
     }
 
-    learn_from_success(ch, gsn_propeganda);
+    learn_from_success(ch, gsn_propaganda);
 
     if (planet->pop_support > 100)
         planet->pop_support = 100;

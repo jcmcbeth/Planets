@@ -86,7 +86,7 @@ sh_int   gsn_first_aid;
 sh_int   gsn_throw;
 
 sh_int   gsn_quicktalk;
-sh_int   gsn_propeganda;
+sh_int   gsn_propaganda;
 
 /* pilots and smugglers */
 sh_int   gsn_spacecraft;
@@ -420,7 +420,7 @@ void boot_db(void)
         ASSIGN_GSN(gsn_construction, "construction");
         ASSIGN_GSN(gsn_quicktalk, "quicktalk");
         ASSIGN_GSN(gsn_bridge, "bridges and exits");
-        ASSIGN_GSN(gsn_propeganda, "propeganda");
+        ASSIGN_GSN(gsn_propaganda, "propaganda");
         ASSIGN_GSN(gsn_hijack, "hijack");
         ASSIGN_GSN(gsn_makejewelry, "makejewelry");
         ASSIGN_GSN(gsn_makeblade, "makeblade");

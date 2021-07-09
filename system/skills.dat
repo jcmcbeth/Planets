@@ -626,12 +626,12 @@ Wearoff      !post guard!~
 End
 
 #SKILL
-Name         propeganda~
+Name         propaganda~
 Type         Skill
 Flags        0
 Minpos       8
 Rounds       12
-Code         do_propeganda
+Code         do_propaganda
 Dammsg       ~
 Wearoff      !!~
 End
